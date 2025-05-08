@@ -1,7 +1,9 @@
-import { randomUUID } from 'crypto';
+import { v4 as uuid } from 'uuid';
+import { Injectable } from '@nestjs/common';
+
 import { Product } from '@entities/product';
 import { ProductCategory } from '@entities/product.types';
-import { Injectable } from '@nestjs/common';
+import { ProductDto } from '@dto/product.dto';
 
 @Injectable()
 export class ProductService {
@@ -13,7 +15,19 @@ export class ProductService {
     price: number,
     quantity: number,
   ): Product {
-    const id = randomUUID();
+    const id = uuid();
     return new Product(id, category, description, price, quantity);
+  }
+
+  toDtoList(products: Product[]): ProductDto[] {
+    return products.map(
+      (product) =>
+        new ProductDto(
+          product.category,
+          product.description,
+          product.price,
+          product.quantity,
+        ),
+    );
   }
 }

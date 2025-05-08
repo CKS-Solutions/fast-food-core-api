@@ -8,7 +8,7 @@ datasource db {
 }
 
 model product {
-  id          String    @id
+  id          String   @id
   description String
   price       Int
   quantity    Int
