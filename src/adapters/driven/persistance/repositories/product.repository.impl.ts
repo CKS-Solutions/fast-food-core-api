@@ -21,6 +21,18 @@ export class ProductRepository implements IProductRepository {
     });
   }
 
+  async get(id: string): Promise<Product | null> {
+    const product = await this.prisma.product.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!product) return null;
+
+    return Product.fromDatabase(product);
+  }
+
   async list(): Promise<Product[]> {
     const products = await this.prisma.product.findMany();
     return products.map((p) => Product.fromDatabase(p));
@@ -35,13 +47,24 @@ export class ProductRepository implements IProductRepository {
     return products.map((p) => Product.fromDatabase(p));
   }
 
-  // update(id: string, product: Product): Promise<void> {
-  //   console.log('Product updated', product, id);
-  //   throw new Error('Method not implemented.');
-  // }
+  async update(id: string, product: Product): Promise<void> {
+    await this.prisma.product.update({
+      where: {
+        id,
+      },
+      data: {
+        price: product.price,
+        description: product.description,
+        quantity: product.quantity,
+      },
+    });
+  }
 
-  // delete(id: string): Promise<void> {
-  //   console.log('Product deleted', id);
-  //   throw new Error('Method not implemented.');
-  // }
+  async delete(id: string): Promise<void> {
+    await this.prisma.product.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

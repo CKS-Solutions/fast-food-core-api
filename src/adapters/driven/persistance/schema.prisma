@@ -10,7 +10,7 @@ datasource db {
 model product {
   id          String   @id
   description String
-  price       Int
+  price       Float
   quantity    Int
   category    String   @default("")
   createdAt   DateTime @default(now())

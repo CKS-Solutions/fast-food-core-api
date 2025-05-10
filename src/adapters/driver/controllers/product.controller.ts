@@ -1,28 +1,35 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
   Post,
+  Put,
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
 
+import { HttpError } from '@error/http';
 import { ProductDto } from '@dto/product.dto';
 import { ProductRepository } from '@repositories/product.repository.impl';
 import { ProductService } from '@services/product.service';
 import { ProductCategory } from '@entities/product.types';
 
+import { ListProductsByCategoryUseCase } from '@usecases/list-products-by-category.use-case';
 import { CreateProductUseCase } from '@usecases/create-product.use-case';
 import { ListProductsUseCase } from '@usecases/list-products.use-case';
-import { ListProductsByCategoryUseCase } from '@usecases/list-products-by-category.use-case';
+import { UpdateProductUseCase } from '@usecases/update-product.use-case';
+import { RemoveProductUseCase } from '@usecases/remove-product.use-case';
 
 @Controller('products')
 export class ProductController {
   private readonly createProductUseCase: CreateProductUseCase;
   private readonly listProductsUseCase: ListProductsUseCase;
   private readonly listProductsByCategoryUseCase: ListProductsByCategoryUseCase;
+  private readonly updateProductUseCase: UpdateProductUseCase;
+  private readonly removeProductUseCase: RemoveProductUseCase;
 
   constructor(
     private readonly productRepository: ProductRepository,
@@ -41,6 +48,15 @@ export class ProductController {
     this.listProductsByCategoryUseCase = new ListProductsByCategoryUseCase(
       this.productRepository,
       this.productService,
+    );
+
+    this.updateProductUseCase = new UpdateProductUseCase(
+      this.productRepository,
+      this.productService,
+    );
+
+    this.removeProductUseCase = new RemoveProductUseCase(
+      this.productRepository,
     );
   }
 
@@ -73,5 +89,45 @@ export class ProductController {
     );
 
     res.status(HttpStatus.OK).json(products).send();
+  }
+
+  @Put(':id')
+  async update(
+    @Res() res: Response,
+    @Param('id') id: string,
+    @Body() product: ProductDto,
+  ): Promise<void> {
+    try {
+      await this.updateProductUseCase.execute(id, product);
+
+      res.status(HttpStatus.OK).send();
+    } catch (error) {
+      if (error instanceof HttpError) {
+        res.status(error.statusCode).json({ message: error.message }).send();
+      }
+
+      res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Internal server error' })
+        .send();
+    }
+  }
+
+  @Delete(':id')
+  async delete(@Res() res: Response, @Param('id') id: string): Promise<void> {
+    try {
+      await this.removeProductUseCase.execute(id);
+
+      res.status(HttpStatus.OK).send();
+    } catch (error) {
+      if (error instanceof HttpError) {
+        res.status(error.statusCode).json({ message: error.message }).send();
+      }
+
+      res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Internal server error' })
+        .send();
+    }
   }
 }

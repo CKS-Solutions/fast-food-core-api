@@ -19,6 +19,15 @@ export class ProductService {
     return new Product(id, category, description, price, quantity);
   }
 
+  toDto(product: Product): ProductDto {
+    return new ProductDto(
+      product.category,
+      product.description,
+      product.price,
+      product.quantity,
+    );
+  }
+
   toDtoList(products: Product[]): ProductDto[] {
     return products.map(
       (product) =>
@@ -28,6 +37,16 @@ export class ProductService {
           product.price,
           product.quantity,
         ),
+    );
+  }
+
+  update(product: Product, productDto: ProductDto): Product {
+    return new Product(
+      product.id,
+      product.category,
+      productDto.description,
+      productDto.price,
+      productDto.quantity,
     );
   }
 }

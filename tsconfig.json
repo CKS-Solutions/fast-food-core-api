@@ -20,11 +20,12 @@
     "paths": {
       "@entities/*": ["./src/core/domain/entities/*"],
       "@ports/*": ["src/core/domain/ports/*"],
+      "@services/*": ["./src/core/domain/services/*"],
+      "@error/*": ["./src/core/domain/error/*"],
       "@usecases/*": ["./src/core/application/use_cases/*"],
       "@controllers/*": ["./src/adapters/driver/controllers/*"],
-      "@repositories/*": ["src/adapters/driven/persistance/repositories/*"],
-      "@services/*": ["./src/core/domain/services/*"],
       "@dto/*": ["./src/adapters/driver/dto/*"],
+      "@repositories/*": ["src/adapters/driven/persistance/repositories/*"],
     }
   }
 }
