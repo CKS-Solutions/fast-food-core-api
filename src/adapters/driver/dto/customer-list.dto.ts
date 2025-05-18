@@ -1,8 +1,12 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CustomerListDto {
-  constructor(
-    public readonly cpf?: string,
-    public readonly name?: string,
-    public readonly email?: string,
-    public readonly phone?: string,
-  ) {}
+  @ApiProperty({ required: false })
+  public readonly cpf?: string;
+  @ApiProperty({ required: false })
+  public readonly name?: string;
+  @ApiProperty({ required: false })
+  public readonly email?: string;
+  @ApiProperty({ required: false })
+  public readonly phone?: string;
 }
