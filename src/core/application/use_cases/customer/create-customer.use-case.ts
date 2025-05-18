@@ -3,6 +3,7 @@ import { Customer } from '@entities/customer';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CustomerRepository } from '@repositories/customer.repository.impl';
 import { CustomerService } from '@services/customer.service';
+import { ERRORS_CODES } from 'src/shared/constants';
 
 @Injectable()
 export class CreateCustomerUseCase {
@@ -18,7 +19,7 @@ export class CreateCustomerUseCase {
 
     if (customerExists.length > 0) {
       throw new HttpException(
-        'CUSTOMER_ALREADY_EXISTS',
+        ERRORS_CODES.CUSTOMER_ALREADY_EXISTS,
         HttpStatus.BAD_REQUEST,
       );
     }
