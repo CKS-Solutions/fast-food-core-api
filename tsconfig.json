@@ -26,6 +26,7 @@
       "@controllers/*": ["./src/adapters/driver/controllers/*"],
       "@dto/*": ["./src/adapters/driver/dto/*"],
       "@repositories/*": ["src/adapters/driven/persistance/repositories/*"],
+      "@shared/*": ["src/shared/*"],
     }
   }
 }
