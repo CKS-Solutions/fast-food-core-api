@@ -8,32 +8,56 @@ datasource db {
 }
 
 model product {
-  id          String   @id
-  description String
-  price       Float
-  quantity    Int
-  category    String   @default("")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String          @id
+  description   String
+  price         Float
+  quantity      Int
+  category      String          @default("")
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  order_product order_product[]
 }
 
 model customer {
-  cpf         String   @id
-  name        String
-  email       String
-  phone       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  cpf       String   @id
+  name      String
+  email     String
+  phone     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   checkout_queue checkout_queue[]
+  order          order[]
 }
 
 model checkout_queue {
-  id            String @id
+  id            String    @id
   customerId    String?
   customer      customer? @relation(fields: [customerId], references: [cpf])
   paymentMethod String
   products      String
   total         Float
-  createdAt     DateTime @default(now())
+  createdAt     DateTime  @default(now())
+}
+
+model order {
+  id            String    @id
+  customerId    String?
+  customer      customer? @relation(fields: [customerId], references: [cpf])
+  paymentMethod String
+  status        String
+  total         Float
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  order_product order_product[]
+}
+
+model order_product {
+  id        String  @id
+  orderId   String
+  order     order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   product @relation(fields: [productId], references: [id])
+  quantity  Int
 }
