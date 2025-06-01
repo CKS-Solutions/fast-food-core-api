@@ -10,6 +10,9 @@ $ npm install
 # Up the database
 $ docker-compose up -d
 
+# The command above will run the api on docker as well, to run it locally, run the command below
+$ docker-compose up -d --scale api=0
+
 # Create a .env file and copy the content of .env.example
 # Run the migrations
 $ npx prisma migrate dev
