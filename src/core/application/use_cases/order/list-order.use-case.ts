@@ -1,5 +1,5 @@
 import { OrderListDto } from '@dto/order-list.dto';
-import { OrderDto } from '@dto/order.dto';
+import { Order } from '@entities/order';
 import { Injectable } from '@nestjs/common';
 import { OrderRepository } from '@repositories/order.repository.impl';
 import { OrderService } from '@services/order.service';
@@ -11,7 +11,7 @@ export class ListOrderUseCase {
     private readonly orderService: OrderService,
   ) {}
 
-  async execute(filters: OrderListDto): Promise<OrderDto[]> {
+  async execute(filters: OrderListDto): Promise<Order[]> {
     const filtersModel = this.orderService.convertFiltersToModel(filters);
     return await this.orderRepository.getOrders(filtersModel);
   }
