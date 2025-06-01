@@ -24,4 +24,16 @@ model customer {
   phone       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  checkout_queue checkout_queue[]
+}
+
+model checkout_queue {
+  id            String @id
+  customerId    String?
+  customer      customer? @relation(fields: [customerId], references: [cpf])
+  paymentMethod String
+  products      String
+  total         Float
+  createdAt     DateTime @default(now())
 }
