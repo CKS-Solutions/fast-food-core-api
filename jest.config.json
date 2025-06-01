@@ -11,6 +11,7 @@
     "^@usecases/(.*)$": "<rootDir>/src/core/application/use_cases/$1",
     "^@repositories/(.*)$": "<rootDir>/src/adapters/driven/persistance/repositories/$1",
     "^@services/(.*)$": "<rootDir>/./src/core/domain/services/$1",
+    "^@dto/(.*)$": "<rootDir>/./src/adapters/driver/dto/$1",
     "^@shared/(.*)$": "<rootDir>/./src/shared/$1"
   }
 }
