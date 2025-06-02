@@ -3,7 +3,6 @@ import {
   DatabaseOrderWithProducts,
   OrderStauts,
 } from './order.types';
-import { Product } from '../product';
 
 export class Order {
   public readonly createdAt: Date;
@@ -14,8 +13,8 @@ export class Order {
     public status: OrderStauts,
     public total: number,
     public customerId: string | null,
-    public products: {
-      product: Product;
+    public products?: {
+      product: string;
       quantity: number;
     }[],
     createdAt?: Date,
@@ -43,7 +42,7 @@ export class Order {
       order.total,
       order.customerId ?? null,
       order.order_product.map((orderProduct) => ({
-        product: Product.fromDatabase(orderProduct.product),
+        product: orderProduct.product.description,
         quantity: orderProduct.quantity,
       })),
       order.createdAt,

@@ -7,13 +7,13 @@ import { FakeCheckoutDto } from '@dto/fake-checkout.dto';
 export class CheckoutQueueService {
   constructor() {}
 
-  create(fakeCheckoutDto: FakeCheckoutDto) {
+  create(fakeCheckoutDto: FakeCheckoutDto, total: number) {
     const id = uuid();
     return new CheckoutQueue(
       id,
       fakeCheckoutDto.paymentMethod,
       fakeCheckoutDto.products,
-      fakeCheckoutDto.total,
+      total,
       fakeCheckoutDto.customerId,
     );
   }
