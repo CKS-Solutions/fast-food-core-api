@@ -14,6 +14,18 @@ export class Order {
     this.createdAt = createdAt ?? new Date();
   }
 
+  toDatabase(): DatabaseOrder {
+    return {
+      id: this.id,
+      customerId: this.customerId,
+      paymentMethod: this.paymentMethod,
+      status: this.status,
+      total: this.total,
+      createdAt: this.createdAt,
+      updatedAt: this.createdAt,
+    };
+  }
+
   static fromDatabase(order: DatabaseOrder): Order {
     return new Order(
       order.id,

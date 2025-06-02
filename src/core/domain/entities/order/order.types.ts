@@ -1,6 +1,10 @@
 export enum OrderStauts {
-  PENDING = 'pending',
-  PAID = 'paid',
+  CREATED = 'created',
+  RECEIVED = 'received',
+  IN_PREPARATION = 'in_preparation',
+  READY = 'ready',
+  FINISHED = 'finished',
+  CANCELLED = 'cancelled',
 }
 
 export type DatabaseOrder = {

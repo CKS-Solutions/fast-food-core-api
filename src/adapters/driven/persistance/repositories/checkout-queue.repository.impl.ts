@@ -21,17 +21,25 @@ export class CheckoutQueueRepository implements ICheckoutQueueRepository {
     });
   }
 
-  // async getOldest(): Promise<CheckoutQueue | undefined> {
-  //   const checkoutQueue = await this.prisma.checkout_queue.findFirst({
-  //     orderBy: {
-  //       createdAt: 'asc',
-  //     },
-  //   });
+  async getOldest(): Promise<CheckoutQueue | undefined> {
+    const checkoutQueue = await this.prisma.checkout_queue.findFirst({
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
 
-  //   if (!checkoutQueue) {
-  //     return undefined;
-  //   }
+    if (!checkoutQueue) {
+      return undefined;
+    }
 
-  //   return CheckoutQueue.fromDatabase(checkoutQueue);
-  // }
+    return CheckoutQueue.fromDatabase(checkoutQueue);
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.prisma.checkout_queue.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
