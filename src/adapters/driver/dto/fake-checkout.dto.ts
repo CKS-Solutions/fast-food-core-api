@@ -9,20 +9,15 @@ export class FakeCheckoutDto {
   public readonly products: FakeCheckoutProductDto[];
 
   @ApiProperty()
-  public readonly total: number;
-
-  @ApiProperty()
   public readonly paymentMethod: string;
 
   constructor(
     customerId: string,
     products: FakeCheckoutProductDto[],
-    total: number,
     paymentMethod: string,
   ) {
     this.customerId = customerId;
     this.products = products;
-    this.total = total;
     this.paymentMethod = paymentMethod;
   }
 }

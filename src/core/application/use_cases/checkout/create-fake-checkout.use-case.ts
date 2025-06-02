@@ -27,6 +27,7 @@ export class CreateFakeCheckoutUseCase {
       }
     }
 
+    let total = 0;
     const productsFromDatabase: {
       databaseProduct: Product;
       stockToDecrease: number;
@@ -43,13 +44,18 @@ export class CreateFakeCheckoutUseCase {
         throw new HttpError(HttpStatus.BAD_REQUEST, 'Product not available');
       }
 
+      total += product.quantity * databaseProduct.price;
+
       productsFromDatabase.push({
         databaseProduct,
         stockToDecrease: product.quantity,
       });
     }
 
-    const checkoutQueue = this.checkoutQueueService.create(fakeCheckoutDto);
+    const checkoutQueue = this.checkoutQueueService.create(
+      fakeCheckoutDto,
+      total,
+    );
 
     await this.checkoutQueueRepository.save(checkoutQueue);
 
