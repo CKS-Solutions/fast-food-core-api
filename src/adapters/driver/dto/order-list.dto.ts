@@ -1,4 +1,4 @@
-import { OrderStauts } from '@entities/order.types';
+import { OrderStauts } from '@entities/order/order.types';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class OrderListDto {

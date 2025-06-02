@@ -1,5 +1,9 @@
-import { DatabaseOrderWithProducts, OrderStauts } from './order.types';
-import { Product } from './product';
+import {
+  DatabaseOrder,
+  DatabaseOrderWithProducts,
+  OrderStauts,
+} from './order.types';
+import { Product } from '../product';
 
 export class Order {
   public readonly createdAt: Date;
@@ -17,6 +21,18 @@ export class Order {
     createdAt?: Date,
   ) {
     this.createdAt = createdAt ?? new Date();
+  }
+
+  toDatabase(): DatabaseOrder {
+    return {
+      id: this.id,
+      customerId: this.customerId,
+      paymentMethod: this.paymentMethod,
+      status: this.status,
+      total: this.total,
+      createdAt: this.createdAt,
+      updatedAt: this.createdAt,
+    };
   }
 
   static fromDatabase(order: DatabaseOrderWithProducts): Order {
