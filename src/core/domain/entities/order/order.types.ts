@@ -1,3 +1,5 @@
+import { DatabaseProduct } from '../product.types';
+
 export enum OrderStauts {
   CREATED = 'created',
   RECEIVED = 'received',
@@ -15,4 +17,11 @@ export type DatabaseOrder = {
   total: number;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type DatabaseOrderWithProducts = DatabaseOrder & {
+  order_product: {
+    product: DatabaseProduct;
+    quantity: number;
+  }[];
 };
