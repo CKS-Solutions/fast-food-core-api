@@ -9,6 +9,27 @@ This project uses the following technologies:
 ## Objective
 This project is being created to learn more about NestJS and to complete the Tech Challenge for the college.
 
+## Project setup (Kubernetes)
+```bash
+# You must have kubernetes installed
+
+# Create a .env file and copy the content of .env.example
+$ cp .env.example .env
+
+# Up the postgres database
+$ kubectl apply -f k8s/postgres/
+
+# Run the migrations
+# To run the migrations, the DATABASE_URL must point to the same port as defined in postgres service (30052)
+$ npx prisma migrate dev
+
+# Up the PgAdmin (optional)
+$ kubectl apply -f k8s/pgadmin/
+
+# Up the project
+$ kubectl apply -f k8s/api/
+```
+
 ## Project setup (Full-Docker)
 ```bash
 # Install the dependencies
