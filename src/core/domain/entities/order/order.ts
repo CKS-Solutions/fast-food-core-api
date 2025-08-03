@@ -21,6 +21,10 @@ export class Order {
     this.createdAt = createdAt ?? new Date();
   }
 
+  changeStatus(status: OrderStatus) {
+    this.status = status;
+  }
+
   toDatabase(): DatabaseOrder {
     return {
       id: this.id,

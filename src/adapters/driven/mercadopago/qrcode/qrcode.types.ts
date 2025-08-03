@@ -4,6 +4,7 @@ export type QRCodeItem = {
   unit_price: number;
   quantity: number;
   total_amount: number;
+  unit_measure: string;
 };
 
 export type GenerateQRCodeRequest = {

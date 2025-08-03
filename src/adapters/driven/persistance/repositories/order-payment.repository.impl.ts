@@ -44,6 +44,18 @@ export class OrderPaymentRepository implements IOrderPaymentRepository {
     return OrderPayment.fromDatabase(orderPayment);
   }
 
+  async update(id: string, orderPayment: OrderPayment): Promise<void> {
+    await this.prisma.order_payment.update({
+      where: { id },
+      data: {
+        code: orderPayment.code,
+        method: orderPayment.method,
+        status: orderPayment.status,
+        expiresAt: orderPayment.expiresAt,
+      },
+    });
+  }
+
   async remove(id: string): Promise<void> {
     await this.prisma.order_payment.delete({
       where: { id },

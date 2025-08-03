@@ -49,4 +49,11 @@ export class OrderRepository implements IOrderRepository {
 
     return Order.fromDatabase(order);
   }
+
+  async update(id: string, order: Order): Promise<void> {
+    await this.prisma.order.update({
+      where: { id },
+      data: order.toDatabase(),
+    });
+  }
 }

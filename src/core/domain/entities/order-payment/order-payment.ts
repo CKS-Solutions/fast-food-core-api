@@ -14,6 +14,10 @@ export class OrderPayment {
     public status: PaymentStatus,
   ) {}
 
+  changeStatus(status: PaymentStatus) {
+    this.status = status;
+  }
+
   static fromDatabase(data: DatabaseOrderPayment): OrderPayment {
     return new OrderPayment(
       data.id,

@@ -64,6 +64,7 @@ export class GeneratePaymentUseCase {
           {
             title: `Pagamento do pedido ${order.id}`,
             description: `Pagamento do pedido ${order.id}`,
+            unit_measure: 'unit',
             unit_price: order.total,
             quantity: 1,
             total_amount: order.total,

@@ -21,9 +21,9 @@ import { OrderService } from '@services/order.service';
 import { OrderRepository } from '@repositories/order.repository.impl';
 import { OrderPaymentRepository } from '@repositories/order-payment.repository.impl';
 import { OrderPaymentService } from '@services/order-payment.service';
-import { MercadoPagoAuthMock } from 'src/adapters/driven/mercadopago/auth/auth.mock';
-import { MercadoPagoQRCodeMock } from 'src/adapters/driven/mercadopago/qrcode/qrcode.mock';
 import { GetPaymentStatusUseCase } from '@usecases/order/get-payment-status.use-case';
+import { MercadoPagoQRCode } from 'src/adapters/driven/mercadopago/qrcode/qrcode';
+import { MercadoPagoAuth } from 'src/adapters/driven/mercadopago/auth/auth';
 
 @Controller('orders')
 export class OrderController {
@@ -36,8 +36,8 @@ export class OrderController {
     private readonly orderRepository: OrderRepository,
     private readonly orderPaymentRepository: OrderPaymentRepository,
     private readonly orderPaymentService: OrderPaymentService,
-    private readonly mpAuthService: MercadoPagoAuthMock,
-    private readonly mpQRCodeService: MercadoPagoQRCodeMock,
+    private readonly mpAuthService: MercadoPagoAuth,
+    private readonly mpQRCodeService: MercadoPagoQRCode,
   ) {
     this.listOrderUseCase = new ListOrderUseCase(
       this.orderRepository,

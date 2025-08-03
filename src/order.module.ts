@@ -4,8 +4,8 @@ import { OrderService } from '@services/order.service';
 import { OrderRepository } from '@repositories/order.repository.impl';
 import { OrderPaymentRepository } from '@repositories/order-payment.repository.impl';
 import { OrderPaymentService } from '@services/order-payment.service';
-import { MercadoPagoAuthMock } from './adapters/driven/mercadopago/auth/auth.mock';
-import { MercadoPagoQRCodeMock } from './adapters/driven/mercadopago/qrcode/qrcode.mock';
+import { MercadoPagoAuth } from './adapters/driven/mercadopago/auth/auth';
+import { MercadoPagoQRCode } from './adapters/driven/mercadopago/qrcode/qrcode';
 
 @Module({
   controllers: [OrderController],
@@ -14,8 +14,8 @@ import { MercadoPagoQRCodeMock } from './adapters/driven/mercadopago/qrcode/qrco
     OrderRepository,
     OrderPaymentService,
     OrderPaymentRepository,
-    MercadoPagoAuthMock,
-    MercadoPagoQRCodeMock,
+    MercadoPagoAuth,
+    MercadoPagoQRCode,
   ],
 })
 export class OrderModule {}
