@@ -1,8 +1,8 @@
-import { OrderDto } from '@dto/order.dto';
 import { Order } from '@entities/order/order';
 import { Injectable } from '@nestjs/common';
 import { IOrderRepository } from '@ports/order.repository';
 import { PrismaService } from '../prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class OrderRepository implements IOrderRepository {
@@ -14,9 +14,13 @@ export class OrderRepository implements IOrderRepository {
     });
   }
 
-  async getOrders(filters: Partial<OrderDto>): Promise<Order[]> {
+  async getOrders(
+    filters?: Prisma.orderWhereInput,
+    orderBy?: Prisma.orderOrderByWithRelationInput,
+  ): Promise<Order[]> {
     const orders = await this.prisma.order.findMany({
-      where: filters,
+      where: filters ?? {},
+      orderBy: orderBy ?? {},
       include: {
         order_product: {
           include: {
@@ -31,9 +35,22 @@ export class OrderRepository implements IOrderRepository {
 
   async get(id: string): Promise<Order | null> {
     const order = await this.prisma.order.findUnique({
-      where: {
-        id,
+      where: { id },
+      include: {
+        order_product: {
+          include: {
+            product: true,
+          },
+        },
       },
+    });
+    return order ? Order.fromDatabase(order) : null;
+  }
+
+  async update(id: string, data: Partial<Order>): Promise<Order> {
+    const updatedOrder = await this.prisma.order.update({
+      where: { id },
+      data,
       include: {
         order_product: {
           include: {
@@ -43,17 +60,6 @@ export class OrderRepository implements IOrderRepository {
       },
     });
 
-    if (!order) {
-      return null;
-    }
-
-    return Order.fromDatabase(order);
-  }
-
-  async update(id: string, order: Order): Promise<void> {
-    await this.prisma.order.update({
-      where: { id },
-      data: order.toDatabase(),
-    });
+    return Order.fromDatabase(updatedOrder);
   }
 }
