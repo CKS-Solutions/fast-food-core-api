@@ -1,4 +1,4 @@
-import { Customer } from '@entities/customer';
+import { Customer } from '@entities/customer/customer';
 
 describe('Customer', () => {
   it('should create a customer with valid data', () => {

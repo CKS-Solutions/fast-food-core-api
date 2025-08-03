@@ -1,4 +1,4 @@
-import { Customer } from '@entities/customer';
+import { Customer } from '@entities/customer/customer';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CustomerRepository } from '@repositories/customer.repository.impl';
 import { ERROR_CODES } from 'src/shared/constants';

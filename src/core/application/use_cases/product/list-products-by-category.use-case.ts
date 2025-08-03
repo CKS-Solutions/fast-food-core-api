@@ -1,5 +1,5 @@
 import { ProductDto } from '@dto/product.dto';
-import { ProductCategory } from '@entities/product.types';
+import { ProductCategory } from '@entities/product/product.types';
 import { ProductRepository } from '@repositories/product.repository.impl';
 import { ProductService } from '@services/product.service';
 

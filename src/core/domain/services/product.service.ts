@@ -1,8 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { Injectable } from '@nestjs/common';
 
-import { Product } from '@entities/product';
-import { ProductCategory } from '@entities/product.types';
+import { Product, ProductCategory } from '@entities/product';
 import { ProductDto } from '@dto/product.dto';
 
 @Injectable()

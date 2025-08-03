@@ -15,7 +15,9 @@ model product {
   category      String          @default("")
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
+
   order_product order_product[]
+  cart_product  cart_product[]
 }
 
 model customer {
@@ -26,18 +28,28 @@ model customer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  checkout_queue checkout_queue[]
+  checkout_queue cart[]
   order          order[]
 }
 
-model checkout_queue {
+model cart {
   id            String    @id
   customerId    String?
   customer      customer? @relation(fields: [customerId], references: [cpf])
-  paymentMethod String
-  products      String
   total         Float
+  status        String
   createdAt     DateTime  @default(now())
+
+  cart_product cart_product[]
+}
+
+model cart_product {
+  id            String    @id
+  cartId        String
+  cart          cart      @relation(fields: [cartId], references: [id])
+  productId     String
+  product       product   @relation(fields: [productId], references: [id])
+  quantity      Int
 }
 
 model order {

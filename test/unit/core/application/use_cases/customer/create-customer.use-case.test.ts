@@ -3,7 +3,7 @@ import { CreateCustomerUseCase } from '@usecases/customer/create-customer.use-ca
 import { CustomerRepository } from '@repositories/customer.repository.impl';
 import { CustomerService } from '@services/customer.service';
 import { HttpException } from '@nestjs/common';
-import { Customer } from '@entities/customer';
+import { Customer } from '@entities/customer/customer';
 import { CustomerDto } from '@dto/customer.dto';
 
 describe('CreateCustomerUseCase', () => {

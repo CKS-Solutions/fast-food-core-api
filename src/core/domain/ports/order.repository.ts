@@ -1,5 +1,5 @@
 import { OrderDto } from '@dto/order.dto';
-import { Order } from '@entities/order/order';
+import { Order } from '@entities/order';
 
 export interface IOrderRepository {
   create(order: Order): Promise<void>;

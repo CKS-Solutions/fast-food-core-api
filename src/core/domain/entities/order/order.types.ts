@@ -1,4 +1,4 @@
-import { DatabaseProduct } from '../product.types';
+import { DatabaseProduct } from '../product';
 
 export enum OrderStauts {
   CREATED = 'created',

@@ -1,22 +1,34 @@
 import { HttpStatus } from '@nestjs/common';
 import { HttpError } from '@error/http';
 
-import { ICheckoutQueueRepository } from '@ports/checkout-queue.repository';
-import { CheckoutQueueService } from '@services/checkout-queue.service';
 import { ICustomerRepository } from '@ports/customer.repository';
 import { FakeCheckoutDto } from '@dto/fake-checkout.dto';
 import { IProductRepository } from '@ports/product.repository';
-import { Product } from '@entities/product';
+import { Product } from '@entities/product/product';
+import { PaymentMethod } from '@entities/cart-payment';
+import { CartService } from '@services/cart.service';
+import { ICartRepository } from '@ports/cart.repository';
+import { CartProductService } from '@services/cart-product.service';
+import { ICartProductRepository } from '@ports/cart-product.repository';
 
 export class CreateFakeCheckoutUseCase {
   constructor(
-    private readonly checkoutQueueRepository: ICheckoutQueueRepository,
-    private readonly checkoutQueueService: CheckoutQueueService,
     private readonly customerRepository: ICustomerRepository,
     private readonly productRepository: IProductRepository,
+    private readonly cartService: CartService,
+    private readonly cartRepository: ICartRepository,
+    private readonly cartProductService: CartProductService,
+    private readonly cartProductRepository: ICartProductRepository,
   ) {}
 
   async execute(fakeCheckoutDto: FakeCheckoutDto) {
+    if (fakeCheckoutDto.paymentMethod !== PaymentMethod.PIX) {
+      throw new HttpError(
+        HttpStatus.BAD_REQUEST,
+        'Only pix payment method is supported for fake checkout',
+      );
+    }
+
     if (fakeCheckoutDto.customerId) {
       const customer = await this.customerRepository.get(
         fakeCheckoutDto.customerId,
@@ -52,19 +64,30 @@ export class CreateFakeCheckoutUseCase {
       });
     }
 
-    const checkoutQueue = this.checkoutQueueService.create(
-      fakeCheckoutDto,
+    const cart = this.cartService.create(
+      fakeCheckoutDto.customerId ?? '',
       total,
     );
 
-    await this.checkoutQueueRepository.save(checkoutQueue);
+    await this.cartRepository.create(cart);
 
     for (const product of productsFromDatabase) {
       product.databaseProduct.decrementStock(product.stockToDecrease);
+
+      const cartProduct = this.cartProductService.create(
+        cart.id,
+        product.databaseProduct.id,
+        product.stockToDecrease,
+      );
+
+      await this.cartProductRepository.create(cartProduct);
+
       await this.productRepository.update(
         product.databaseProduct.id,
         product.databaseProduct,
       );
     }
+
+    return { id: cart.id };
   }
 }

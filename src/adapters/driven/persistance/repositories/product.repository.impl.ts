@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
-import { Product } from '@entities/product';
+import { Product } from '@entities/product/product';
 import { IProductRepository } from '@ports/product.repository';
 import { PrismaService } from '../prisma.service';
-import { ProductCategory } from '@entities/product.types';
+import { ProductCategory } from '@entities/product/product.types';
 
 @Injectable()
 export class ProductRepository implements IProductRepository {
