@@ -1,38 +1,54 @@
-// import { HttpError } from '@error/http';
-// import { HttpStatus } from '@nestjs/common';
-import { OrderProductRepository } from '@repositories/order-product.repository.impl';
-import { OrderRepository } from '@repositories/order.repository.impl';
+import { CartStatus } from '@entities/cart';
+import { HttpError } from '@error/http';
+import { HttpStatus } from '@nestjs/common';
+import { ICartProductRepository } from '@ports/cart-product.repository';
+import { ICartRepository } from '@ports/cart.repository';
+import { IOrderProductRepository } from '@ports/order-product.repository';
+import { IOrderRepository } from '@ports/order.repository';
 import { OrderProductService } from '@services/order-product.service';
 import { OrderService } from '@services/order.service';
 
 export class CreateCheckoutUseCase {
   constructor(
-    private readonly orderProductRepository: OrderProductRepository,
+    private readonly cartRepository: ICartRepository,
+    private readonly cartProductRepository: ICartProductRepository,
+    private readonly orderProductRepository: IOrderProductRepository,
     private readonly orderProductService: OrderProductService,
-    private readonly orderRepository: OrderRepository,
+    private readonly orderRepository: IOrderRepository,
     private readonly orderService: OrderService,
   ) {}
 
-  async execute() {
-    // const queueRecord = await this.checkoutQueueRepository.getOldest();
-    // if (!queueRecord) {
-    //   throw new HttpError(HttpStatus.NO_CONTENT, 'No record to process!');
-    // }
+  async execute(id: string) {
+    const cart = await this.cartRepository.get(id);
+    if (!cart) {
+      throw new HttpError(HttpStatus.NOT_FOUND, 'Cart not found');
+    }
 
-    // const order = this.orderService.createOrderFromCheckoutQueue(queueRecord);
-    // await this.orderRepository.create(order);
+    if (cart.status !== CartStatus.OPEN) {
+      throw new HttpError(HttpStatus.BAD_REQUEST, 'Cart is not open');
+    }
 
-    // for (const product of queueRecord.products) {
-    //   const orderProduct = this.orderProductService.create(
-    //     order.id,
-    //     product.productId,
-    //     product.quantity,
-    //   );
-    //   await this.orderProductRepository.create(orderProduct);
-    // }
+    const cartProducts = await this.cartProductRepository.listByCartId(id);
+    if (cartProducts.length === 0) {
+      throw new HttpError(HttpStatus.BAD_REQUEST, 'Cart is empty');
+    }
 
-    // await this.checkoutQueueRepository.remove(queueRecord.id);
-    await new Promise((res) => setTimeout(res, 1000));
-    throw new Error('Method not implemented.');
+    const order = this.orderService.createFromCart(cart);
+    await this.orderRepository.create(order);
+
+    for (const cartProduct of cartProducts) {
+      const orderProduct = this.orderProductService.create(
+        order.id,
+        cartProduct.productId,
+        cartProduct.quantity,
+      );
+
+      await this.orderProductRepository.create(orderProduct);
+    }
+
+    cart.updateStatus(CartStatus.FINISHED);
+    await this.cartRepository.update(cart.id, cart);
+
+    return { id: order.id };
   }
 }

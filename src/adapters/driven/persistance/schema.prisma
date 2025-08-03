@@ -56,7 +56,6 @@ model order {
   id            String    @id
   customerId    String?
   customer      customer? @relation(fields: [customerId], references: [cpf])
-  paymentMethod String
   status        String
   total         Float
   createdAt     DateTime  @default(now())

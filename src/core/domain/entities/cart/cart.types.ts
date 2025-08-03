@@ -6,7 +6,7 @@ export enum CartStatus {
 
 export type DatabaseCart = {
   id: string;
-  customerId: string;
+  customerId: string | null;
   total: number;
-  status: CartStatus;
+  status: string;
 };

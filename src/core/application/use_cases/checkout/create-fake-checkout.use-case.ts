@@ -5,7 +5,6 @@ import { ICustomerRepository } from '@ports/customer.repository';
 import { FakeCheckoutDto } from '@dto/fake-checkout.dto';
 import { IProductRepository } from '@ports/product.repository';
 import { Product } from '@entities/product/product';
-import { PaymentMethod } from '@entities/cart-payment';
 import { CartService } from '@services/cart.service';
 import { ICartRepository } from '@ports/cart.repository';
 import { CartProductService } from '@services/cart-product.service';
@@ -22,13 +21,6 @@ export class CreateFakeCheckoutUseCase {
   ) {}
 
   async execute(fakeCheckoutDto: FakeCheckoutDto) {
-    if (fakeCheckoutDto.paymentMethod !== PaymentMethod.PIX) {
-      throw new HttpError(
-        HttpStatus.BAD_REQUEST,
-        'Only pix payment method is supported for fake checkout',
-      );
-    }
-
     if (fakeCheckoutDto.customerId) {
       const customer = await this.customerRepository.get(
         fakeCheckoutDto.customerId,

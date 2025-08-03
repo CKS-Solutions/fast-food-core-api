@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Param, Post, Res } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 
@@ -48,6 +48,8 @@ export class CheckoutController {
     );
 
     this.createCheckoutUseCase = new CreateCheckoutUseCase(
+      this.cartRepository,
+      this.cartProductRepository,
       this.orderProductRepository,
       this.orderProductService,
       this.orderRepository,
@@ -93,7 +95,7 @@ export class CheckoutController {
     }
   }
 
-  @Post('/create')
+  @Post('/create/:id')
   @ApiOperation({
     summary: 'Create a checkout',
     description: 'Create a checkout',
@@ -110,11 +112,11 @@ export class CheckoutController {
     status: 500,
     description: 'Internal server error.',
   })
-  async create(@Res() res: Response) {
+  async create(@Res() res: Response, @Param('id') id: string) {
     try {
-      await this.createCheckoutUseCase.execute();
+      const data = await this.createCheckoutUseCase.execute(id);
 
-      res.status(HttpStatus.CREATED).send();
+      res.status(HttpStatus.CREATED).send(data);
     } catch (error) {
       if (error instanceof HttpError) {
         res.status(error.statusCode).json({ message: error.message }).send();

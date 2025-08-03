@@ -17,4 +17,21 @@ export class CartProductRepository implements ICartProductRepository {
       },
     });
   }
+
+  async listByCartId(cartId: string): Promise<CartProduct[]> {
+    const cartProducts = await this.prisma.cart_product.findMany({
+      where: {
+        cartId,
+      },
+    });
+
+    return cartProducts.map((cartProduct) => {
+      return new CartProduct(
+        cartProduct.id,
+        cartProduct.cartId,
+        cartProduct.productId,
+        cartProduct.quantity,
+      );
+    });
+  }
 }

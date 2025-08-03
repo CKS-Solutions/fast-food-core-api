@@ -17,4 +17,31 @@ export class CartRepository implements ICartRepository {
       },
     });
   }
+
+  async get(id: string): Promise<Cart | null> {
+    const cart = await this.prisma.cart.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!cart) {
+      return null;
+    }
+
+    return Cart.fromDatabase(cart);
+  }
+
+  async update(id: string, cart: Cart): Promise<void> {
+    await this.prisma.cart.update({
+      where: {
+        id,
+      },
+      data: {
+        customerId: cart.customerId,
+        total: cart.total,
+        status: cart.status,
+      },
+    });
+  }
 }

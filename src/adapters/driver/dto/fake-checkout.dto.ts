@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { FakeCheckoutProductDto } from './fake-checkout-product.dto';
-import { PaymentMethod } from '@entities/cart-payment';
 
 export class FakeCheckoutDto {
   @ApiProperty({ nullable: true, type: 'string' })
@@ -9,16 +8,8 @@ export class FakeCheckoutDto {
   @ApiProperty({ type: [FakeCheckoutProductDto] })
   public readonly products: FakeCheckoutProductDto[];
 
-  @ApiProperty()
-  public readonly paymentMethod: PaymentMethod;
-
-  constructor(
-    customerId: string,
-    products: FakeCheckoutProductDto[],
-    paymentMethod: PaymentMethod,
-  ) {
+  constructor(customerId: string, products: FakeCheckoutProductDto[]) {
     this.customerId = customerId;
     this.products = products;
-    this.paymentMethod = paymentMethod;
   }
 }
