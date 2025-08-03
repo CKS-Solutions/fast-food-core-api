@@ -1,7 +1,7 @@
-import { ProductCategory } from '@entities/product.types';
+import { ProductCategory } from '@entities/product/product.types';
 import { ProductService } from '@services/product.service';
 import { ProductDto } from '@dto/product.dto';
-import { Product } from '@entities/product';
+import { Product } from '@entities/product/product';
 
 describe('ProductService', () => {
   it('should be defined', () => {

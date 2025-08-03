@@ -1,7 +1,7 @@
-import { DatabaseProduct } from '../product.types';
+import { DatabaseProduct } from '../product';
 
-export enum OrderStauts {
-  CREATED = 'created',
+export enum OrderStatus {
+  WAITING_PAYMENT = 'waiting_payment',
   RECEIVED = 'received',
   IN_PREPARATION = 'in_preparation',
   READY = 'ready',
@@ -12,7 +12,6 @@ export enum OrderStauts {
 export type DatabaseOrder = {
   id: string;
   customerId: string | null;
-  paymentMethod: string;
   status: string;
   total: number;
   createdAt: Date;

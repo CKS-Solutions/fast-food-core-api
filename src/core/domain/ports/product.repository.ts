@@ -1,5 +1,4 @@
-import { Product } from '@entities/product';
-import { ProductCategory } from '@entities/product.types';
+import { Product, ProductCategory } from '@entities/product';
 
 export interface IProductRepository {
   create(product: Product): Promise<void>;

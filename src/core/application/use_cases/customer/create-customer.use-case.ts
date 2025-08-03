@@ -1,5 +1,5 @@
 import { CustomerDto } from '@dto/customer.dto';
-import { Customer } from '@entities/customer';
+import { Customer } from '@entities/customer/customer';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CustomerRepository } from '@repositories/customer.repository.impl';
 import { CustomerService } from '@services/customer.service';

@@ -15,13 +15,15 @@ import { HttpError } from '@error/http';
 import { ProductDto } from '@dto/product.dto';
 import { ProductRepository } from '@repositories/product.repository.impl';
 import { ProductService } from '@services/product.service';
-import { ProductCategory } from '@entities/product.types';
+import { ProductCategory } from '@entities/product/product.types';
 
-import { ListProductsByCategoryUseCase } from '@usecases/list-products-by-category.use-case';
-import { CreateProductUseCase } from '@usecases/create-product.use-case';
-import { ListProductsUseCase } from '@usecases/list-products.use-case';
-import { UpdateProductUseCase } from '@usecases/update-product.use-case';
-import { RemoveProductUseCase } from '@usecases/remove-product.use-case';
+import {
+  ListProductsByCategoryUseCase,
+  CreateProductUseCase,
+  UpdateProductUseCase,
+  RemoveProductUseCase,
+  ListProductsUseCase,
+} from '@usecases/product';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('products')

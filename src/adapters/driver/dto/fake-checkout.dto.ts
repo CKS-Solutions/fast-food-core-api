@@ -8,16 +8,8 @@ export class FakeCheckoutDto {
   @ApiProperty({ type: [FakeCheckoutProductDto] })
   public readonly products: FakeCheckoutProductDto[];
 
-  @ApiProperty()
-  public readonly paymentMethod: string;
-
-  constructor(
-    customerId: string,
-    products: FakeCheckoutProductDto[],
-    paymentMethod: string,
-  ) {
+  constructor(customerId: string, products: FakeCheckoutProductDto[]) {
     this.customerId = customerId;
     this.products = products;
-    this.paymentMethod = paymentMethod;
   }
 }

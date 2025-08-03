@@ -1,7 +1,8 @@
+import { v4 as uuid } from 'uuid';
 import { OrderListDto } from '@dto/order-list.dto';
-import { CheckoutQueue } from '@entities/checkout-queue';
+import { Cart } from '@entities/cart';
 import { Order } from '@entities/order/order';
-import { OrderStauts } from '@entities/order/order.types';
+import { OrderStatus } from '@entities/order/order.types';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -12,20 +13,17 @@ export class OrderService {
     const orderFiltersModel: Partial<Order> = {};
 
     if (filters.customerId) orderFiltersModel.customerId = filters.customerId;
-    if (filters.paymentMethod)
-      orderFiltersModel.paymentMethod = filters.paymentMethod;
     if (filters.status) orderFiltersModel.status = filters.status;
 
     return orderFiltersModel;
   }
 
-  createOrderFromCheckoutQueue(checkoutQueue: CheckoutQueue): Order {
+  createFromCart(cart: Cart): Order {
     return new Order(
-      checkoutQueue.id,
-      checkoutQueue.paymentMethod,
-      OrderStauts.CREATED,
-      checkoutQueue.total,
-      checkoutQueue.customerId,
+      uuid(),
+      OrderStatus.WAITING_PAYMENT,
+      cart.total,
+      cart.customerId,
     );
   }
 }
