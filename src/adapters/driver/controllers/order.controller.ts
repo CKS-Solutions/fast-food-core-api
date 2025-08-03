@@ -23,11 +23,13 @@ import { OrderPaymentRepository } from '@repositories/order-payment.repository.i
 import { OrderPaymentService } from '@services/order-payment.service';
 import { MercadoPagoAuthMock } from 'src/adapters/driven/mercadopago/auth/auth.mock';
 import { MercadoPagoQRCodeMock } from 'src/adapters/driven/mercadopago/qrcode/qrcode.mock';
+import { GetPaymentStatusUseCase } from '@usecases/order/get-payment-status.use-case';
 
 @Controller('orders')
 export class OrderController {
   private readonly listOrderUseCase: ListOrderUseCase;
   private readonly generatePaymentUseCase: GeneratePaymentUseCase;
+  private readonly getPaymentStatusUseCase: GetPaymentStatusUseCase;
 
   constructor(
     private readonly orderService: OrderService,
@@ -48,6 +50,11 @@ export class OrderController {
       this.orderPaymentService,
       this.mpAuthService,
       this.mpQRCodeService,
+    );
+
+    this.getPaymentStatusUseCase = new GetPaymentStatusUseCase(
+      this.orderRepository,
+      this.orderPaymentRepository,
     );
   }
 
@@ -88,6 +95,40 @@ export class OrderController {
   async generatePayment(@Res() res: Response, @Param('id') id: string) {
     try {
       const data = await this.generatePaymentUseCase.execute(id);
+
+      res.status(HttpStatus.OK).json(data).send();
+    } catch (error) {
+      if (error instanceof HttpError) {
+        res.status(error.statusCode).json({ message: error.message }).send();
+      }
+
+      res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Internal server error' })
+        .send();
+    }
+  }
+
+  @Get(':id/payment/status')
+  @ApiOperation({
+    summary: 'Get payment status',
+    description: 'Get payment status',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The payment status has been successfully retrieved.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Order not found.',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error.',
+  })
+  async getPaymentStatus(@Res() res: Response, @Param('id') id: string) {
+    try {
+      const data = await this.getPaymentStatusUseCase.execute(id);
 
       res.status(HttpStatus.OK).json(data).send();
     } catch (error) {
