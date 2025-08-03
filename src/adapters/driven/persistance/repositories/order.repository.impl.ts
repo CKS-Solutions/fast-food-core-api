@@ -1,8 +1,8 @@
-import { OrderDto } from '@dto/order.dto';
 import { Order } from '@entities/order/order';
 import { Injectable } from '@nestjs/common';
 import { IOrderRepository } from '@ports/order.repository';
 import { PrismaService } from '../prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class OrderRepository implements IOrderRepository {
@@ -14,9 +14,13 @@ export class OrderRepository implements IOrderRepository {
     });
   }
 
-  async getOrders(filters: Partial<OrderDto>): Promise<Order[]> {
+  async getOrders(
+    filters?: Prisma.orderWhereInput,
+    orderBy?: Prisma.orderOrderByWithRelationInput,
+  ): Promise<Order[]> {
     const orders = await this.prisma.order.findMany({
-      where: filters,
+      where: filters ?? {},
+      orderBy: orderBy ?? {},
       include: {
         order_product: {
           include: {

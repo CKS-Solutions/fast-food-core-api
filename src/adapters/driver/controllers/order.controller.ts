@@ -1,6 +1,5 @@
-import { OrderListDto } from '@dto/order-list.dto';
 import { Order } from '@entities/order';
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ListOrderUseCase } from '@usecases/order/list-order.use-case';
 
@@ -11,13 +10,13 @@ export class OrderController {
   @Get()
   @ApiOperation({
     summary: 'List orders',
-    description: 'List orders',
+    description: 'List orders using queue priority',
   })
   @ApiResponse({
     status: 200,
     description: 'The orders have been successfully listed.',
   })
-  async list(@Query() params: OrderListDto): Promise<Order[]> {
-    return await this.listOrderUseCase.execute(params);
+  async list(): Promise<Order[]> {
+    return await this.listOrderUseCase.execute();
   }
 }

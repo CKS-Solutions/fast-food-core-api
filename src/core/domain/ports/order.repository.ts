@@ -1,7 +1,10 @@
-import { OrderDto } from '@dto/order.dto';
 import { Order } from '@entities/order/order';
+import { Prisma } from '@prisma/client';
 
 export interface IOrderRepository {
   create(order: Order): Promise<void>;
-  getOrders(filters: Partial<OrderDto>): Promise<Order[]>;
+  getOrders(
+    filters?: Prisma.orderWhereInput,
+    orderBy?: Prisma.orderOrderByWithRelationInput,
+  ): Promise<Order[]>;
 }
