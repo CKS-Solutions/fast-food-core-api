@@ -1,6 +1,7 @@
 export enum PaymentStatus {
   PENDING = 'pending',
   PAID = 'paid',
+  REJECTED = 'rejected',
   CANCELED = 'canceled',
 }
 
@@ -8,9 +9,11 @@ export enum PaymentMethod {
   PIX = 'pix',
 }
 
-export type DatabaseCartPayment = {
+export type DatabaseOrderPayment = {
   id: string;
-  cartId: string;
-  method: PaymentMethod;
-  status: PaymentStatus;
+  orderId: string;
+  code: string;
+  method: string;
+  status: string;
+  expiresAt: bigint;
 };

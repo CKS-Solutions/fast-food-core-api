@@ -1,10 +1,8 @@
 import { OrderListDto } from '@dto/order-list.dto';
 import { Order } from '@entities/order';
-import { Injectable } from '@nestjs/common';
 import { OrderRepository } from '@repositories/order.repository.impl';
 import { OrderService } from '@services/order.service';
 
-@Injectable()
 export class ListOrderUseCase {
   constructor(
     private readonly orderRepository: OrderRepository,

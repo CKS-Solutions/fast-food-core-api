@@ -28,4 +28,25 @@ export class OrderRepository implements IOrderRepository {
 
     return orders.map((order) => Order.fromDatabase(order));
   }
+
+  async get(id: string): Promise<Order | null> {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        order_product: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+
+    if (!order) {
+      return null;
+    }
+
+    return Order.fromDatabase(order);
+  }
 }
