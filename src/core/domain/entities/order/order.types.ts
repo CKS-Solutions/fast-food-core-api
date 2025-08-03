@@ -1,6 +1,6 @@
 import { DatabaseProduct } from '../product.types';
 
-export enum OrderStauts {
+export enum OrderStatus {
   CREATED = 'created',
   RECEIVED = 'received',
   IN_PREPARATION = 'in_preparation',

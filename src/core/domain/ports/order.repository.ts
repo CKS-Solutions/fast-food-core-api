@@ -7,4 +7,6 @@ export interface IOrderRepository {
     filters?: Prisma.orderWhereInput,
     orderBy?: Prisma.orderOrderByWithRelationInput,
   ): Promise<Order[]>;
+  get(id: string): Promise<Order | null>;
+  update(id: string, data: Partial<Order>): Promise<Order>;
 }

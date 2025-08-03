@@ -1,7 +1,7 @@
 import {
   DatabaseOrder,
   DatabaseOrderWithProducts,
-  OrderStauts,
+  OrderStatus,
 } from './order.types';
 
 export class Order {
@@ -10,7 +10,7 @@ export class Order {
   constructor(
     public id: string,
     public paymentMethod: string,
-    public status: OrderStauts,
+    public status: OrderStatus,
     public total: number,
     public customerId: string | null,
     public products?: {
@@ -38,7 +38,7 @@ export class Order {
     return new Order(
       order.id,
       order.paymentMethod,
-      order.status as OrderStauts,
+      order.status as OrderStatus,
       order.total,
       order.customerId ?? null,
       order.order_product.map((orderProduct) => ({

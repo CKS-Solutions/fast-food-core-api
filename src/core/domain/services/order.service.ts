@@ -1,7 +1,7 @@
 import { OrderListDto } from '@dto/order-list.dto';
 import { CheckoutQueue } from '@entities/checkout-queue';
 import { Order } from '@entities/order/order';
-import { OrderStauts } from '@entities/order/order.types';
+import { OrderStatus } from '@entities/order/order.types';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
@@ -15,7 +15,8 @@ export class OrderService {
     if (filters.customerId) orderFiltersModel.customerId = filters.customerId;
     if (filters.paymentMethod)
       orderFiltersModel.paymentMethod = filters.paymentMethod;
-    if (filters.status) orderFiltersModel.status = filters.status;
+    if (filters.status)
+      orderFiltersModel.status = filters.status as OrderStatus;
 
     return orderFiltersModel;
   }
@@ -23,11 +24,11 @@ export class OrderService {
   getWhereInput(): Prisma.orderWhereInput {
     return {
       status: {
-        not: OrderStauts.FINISHED,
+        not: OrderStatus.FINISHED,
         in: [
-          OrderStauts.READY,
-          OrderStauts.IN_PREPARATION,
-          OrderStauts.RECEIVED,
+          OrderStatus.READY,
+          OrderStatus.IN_PREPARATION,
+          OrderStatus.RECEIVED,
         ],
       },
     };
@@ -43,7 +44,7 @@ export class OrderService {
     return new Order(
       checkoutQueue.id,
       checkoutQueue.paymentMethod,
-      OrderStauts.CREATED,
+      OrderStatus.CREATED,
       checkoutQueue.total,
       checkoutQueue.customerId,
     );
@@ -51,12 +52,12 @@ export class OrderService {
 
   sortOrdersByQueuePriority(orders: Order[]): Order[] {
     const statusPriority = {
-      [OrderStauts.READY]: 1,
-      [OrderStauts.IN_PREPARATION]: 2,
-      [OrderStauts.RECEIVED]: 3,
-      [OrderStauts.CREATED]: 4,
-      [OrderStauts.CANCELLED]: 5,
-      [OrderStauts.FINISHED]: 6,
+      [OrderStatus.READY]: 1,
+      [OrderStatus.IN_PREPARATION]: 2,
+      [OrderStatus.RECEIVED]: 3,
+      [OrderStatus.CREATED]: 4,
+      [OrderStatus.CANCELLED]: 5,
+      [OrderStatus.FINISHED]: 6,
     };
 
     return orders.sort((a, b) => {

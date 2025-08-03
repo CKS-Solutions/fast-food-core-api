@@ -1,4 +1,4 @@
-import { Order, OrderStauts } from '@entities/order';
+import { Order, OrderStatus } from '@entities/order';
 import { OrderService } from '@services/order.service';
 
 const service = new OrderService();
@@ -9,7 +9,7 @@ describe('sortOrdersByQueuePriority', () => {
       new Order(
         '1',
         'credit_card',
-        OrderStauts.IN_PREPARATION,
+        OrderStatus.IN_PREPARATION,
         0,
         null,
         [],
@@ -18,7 +18,7 @@ describe('sortOrdersByQueuePriority', () => {
       new Order(
         '2',
         'credit_card',
-        OrderStauts.READY,
+        OrderStatus.READY,
         0,
         null,
         [],
