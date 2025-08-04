@@ -25,6 +25,7 @@ spec:
       containers:
         - name: api
           image: cauakath/fast-food-tc:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
@@ -38,6 +39,21 @@ spec:
                 secretKeyRef:
                   name: api-secrets
                   key: POSTGRES_PASSWORD
+            - name: MP_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: MP_USER_ID
+            - name: MP_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: MP_CLIENT_ID
+            - name: MP_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: MP_CLIENT_SECRET
             - name: POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:
@@ -53,6 +69,11 @@ spec:
                 configMapKeyRef:
                   name: api-config
                   key: POSTGRES_NAME
+            - name: MP_POS_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: api-config
+                  key: MP_POS_ID
             - name: DATABASE_URL
               value: postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_NAME)?schema=public
 

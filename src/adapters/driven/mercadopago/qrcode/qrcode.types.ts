@@ -11,7 +11,6 @@ export type GenerateQRCodeRequest = {
   external_reference: string;
   title: string;
   description: string;
-  notification_url: string;
   total_amount: number;
   expiration_date: string;
   items: QRCodeItem[];

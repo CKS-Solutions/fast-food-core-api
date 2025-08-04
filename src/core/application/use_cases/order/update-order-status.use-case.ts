@@ -14,6 +14,12 @@ export class UpdateOrderStatusUseCase {
       throw new HttpError(404, 'Order not found');
     }
 
-    return await this.orderRepository.update(id, { status });
+    if (order.status === status) {
+      throw new HttpError(400, 'Order status is already updated');
+    }
+
+    order.changeStatus(status);
+
+    return await this.orderRepository.update(id, order);
   }
 }

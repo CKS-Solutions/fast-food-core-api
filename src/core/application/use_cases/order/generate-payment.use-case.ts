@@ -59,7 +59,6 @@ export class GeneratePaymentUseCase {
         total_amount: order.total,
         external_reference: `${order.id}-${Date.now()}`,
         expiration_date: new Date(expiresAt).toISOString(),
-        notification_url: '',
         items: [
           {
             title: `Pagamento do pedido ${order.id}`,

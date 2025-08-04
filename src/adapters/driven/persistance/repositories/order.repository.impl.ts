@@ -47,10 +47,10 @@ export class OrderRepository implements IOrderRepository {
     return order ? Order.fromDatabase(order) : null;
   }
 
-  async update(id: string, data: Partial<Order>): Promise<Order> {
+  async update(id: string, data: Order): Promise<Order> {
     const updatedOrder = await this.prisma.order.update({
       where: { id },
-      data,
+      data: data.toDatabase(),
       include: {
         order_product: {
           include: {
