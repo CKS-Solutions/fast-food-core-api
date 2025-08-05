@@ -6,8 +6,29 @@ This project uses the following technologies:
 * Prisma ORM;
 * Docker;
 
+### Summary of the Flow:
+* The customer optionally identifies themselves.
+* They build a combo (burger, side, drink) and submit the order.
+* The backend generates a payment QR code via Mercado Pago.
+* Once the payment is confirmed (via webhook), the order is sent to the kitchen and shown on the customer screen.
+* The admin panel allows the restaurant to manage products, customers, and live order tracking.
+* All data is persisted in a PostgreSQL database.
+
+**Diagram of the Workflow**
+![Business Diagram](./assets/diagram-business.png)
+
 ## Objective
 This project is being created to learn more about NestJS and to complete the Tech Challenge for the college.
+
+## Infraestructure Requirements
+To orchestrate the services, Minikube was used as it provides a lightweight and efficient solution for local Kubernetes testing. This choice enables testing of scalability, resilience, and configuration of architectural components, while simulating real-world environments with support for HPA, ConfigMaps, Secrets, and data persistence.
+
+The architecture is easily portable to managed Kubernetes services such as AKS (Azure), EKS (AWS), or GKE (Google Cloud), requiring only minimal adjustments to the manifest files.
+
+All configuration files are located in the k8s/ directory, organized by component (api, postgres, pgadmin).
+
+**Current infrastructure diagram:**
+![Infraestructure Diagram](./assets/diagram-infra.png)
 
 ## Project setup (Kubernetes)
 ```bash
