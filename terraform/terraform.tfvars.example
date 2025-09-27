@@ -1,0 +1,23 @@
+# Project Configuration
+project_name = "fast-food-tc"
+environment  = "dev"
+
+# AWS Configuration
+aws_region         = "us-east-1"
+availability_zones = ["us-east-1a", "us-east-1b"]
+
+# VPC Configuration
+vpc_cidr             = "10.0.0.0/16"
+public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnet_cidrs = ["10.0.10.0/24", "10.0.11.0/24"]
+
+# Database Configuration
+db_name                   = "fastfooddb"
+db_username              = "dbuser"
+db_password              = "changeme123!"  # Change this in production!
+db_instance_class        = "db.t4g.micro"
+db_allocated_storage     = 20
+db_max_allocated_storage = 100
+
+# API Gateway Configuration
+api_gateway_stage_name = "prod"
