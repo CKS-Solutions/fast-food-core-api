@@ -15,8 +15,8 @@ export class OrderRepository implements IOrderRepository {
   }
 
   async getOrders(
-    filters?: Prisma.OrderWhereInput,
-    orderBy?: Prisma.OrderOrderByWithRelationInput,
+    filters?: Prisma.orderWhereInput,
+    orderBy?: Prisma.orderOrderByWithRelationInput,
   ): Promise<Order[]> {
     const orders = await this.prisma.order.findMany({
       where: filters ?? {},

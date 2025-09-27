@@ -44,3 +44,6 @@ export const handler = async (
   const server = await bootstrap();
   return server(event, context);
 };
+
+// Export for CommonJS compatibility (Lambda runtime)
+module.exports = { handler };

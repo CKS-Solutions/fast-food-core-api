@@ -96,27 +96,29 @@ resource "aws_api_gateway_stage" "api" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   stage_name    = var.api_gateway_stage_name
 
-  # Enable logging
-  access_log_destination_arn = aws_cloudwatch_log_group.api_gateway.arn
-  access_log_format = jsonencode({
-    requestId      = "$context.requestId"
-    ip             = "$context.identity.sourceIp"
-    caller         = "$context.identity.caller"
-    user           = "$context.identity.user"
-    requestTime    = "$context.requestTime"
-    httpMethod     = "$context.httpMethod"
-    resourcePath   = "$context.resourcePath"
-    status         = "$context.status"
-    protocol       = "$context.protocol"
-    responseLength = "$context.responseLength"
-    error          = {
-      message      = "$context.error.message"
-      messageString = "$context.error.messageString"
-    }
-  })
-
   # Enable X-Ray tracing
   xray_tracing_enabled = true
+
+  # Access logging configuration
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gateway.arn
+    format = jsonencode({
+      requestId      = "$context.requestId"
+      ip             = "$context.identity.sourceIp"
+      caller         = "$context.identity.caller"
+      user           = "$context.identity.user"
+      requestTime    = "$context.requestTime"
+      httpMethod     = "$context.httpMethod"
+      resourcePath   = "$context.resourcePath"
+      status         = "$context.status"
+      protocol       = "$context.protocol"
+      responseLength = "$context.responseLength"
+      error          = {
+        message      = "$context.error.message"
+        messageString = "$context.error.messageString"
+      }
+    })
+  }
 
   tags = {
     Name        = "${var.project_name}-api-stage"
@@ -142,10 +144,10 @@ resource "aws_api_gateway_method_response" "proxy_response_200" {
   http_method = aws_api_gateway_method.proxy_any.http_method
   status_code = "200"
 
-  response_headers = {
-    "Access-Control-Allow-Headers" = true
-    "Access-Control-Allow-Methods" = true
-    "Access-Control-Allow-Origin"  = true
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
   }
 }
 
@@ -155,9 +157,9 @@ resource "aws_api_gateway_method_response" "root_response_200" {
   http_method = aws_api_gateway_method.root_any.http_method
   status_code = "200"
 
-  response_headers = {
-    "Access-Control-Allow-Headers" = true
-    "Access-Control-Allow-Methods" = true
-    "Access-Control-Allow-Origin"  = true
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
   }
 }

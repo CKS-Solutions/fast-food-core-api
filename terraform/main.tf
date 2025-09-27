@@ -67,7 +67,7 @@ resource "aws_lambda_function" "fast_food_api" {
   filename         = data.archive_file.lambda_zip.output_path
   function_name    = "${var.project_name}-api"
   role            = aws_iam_role.lambda_execution_role.arn
-  handler         = "main.handler"
+  handler         = "lambda.handler"
   runtime         = "nodejs20.x"
   timeout         = 30
   memory_size     = 512

@@ -19,7 +19,7 @@ export class OrderService {
     return orderFiltersModel;
   }
 
-  getWhereInput(): Prisma.OrderWhereInput {
+  getWhereInput(): Prisma.orderWhereInput {
     return {
       status: {
         not: OrderStatus.FINISHED,
@@ -32,7 +32,7 @@ export class OrderService {
     };
   }
 
-  getOrderBy(): Prisma.OrderOrderByWithRelationInput {
+  getOrderBy(): Prisma.orderOrderByWithRelationInput {
     return {
       createdAt: 'asc',
     };
