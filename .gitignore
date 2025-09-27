@@ -63,6 +63,3 @@ terraform/terraform.tfstate.backup
 terraform/*.tfplan
 terraform/lambda-function.zip
 terraform/terraform.tfvars
-
-# AWS
-.aws/

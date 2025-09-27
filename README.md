@@ -30,29 +30,6 @@ All configuration files are located in the k8s/ directory, organized by componen
 **Current infrastructure diagram:**
 ![Infraestructure Diagram](./assets/diagram-infra.png)
 
-## Project setup (AWS Lambda with Terraform)
-
-```bash
-# Prerequisites: AWS CLI configured, Terraform installed
-
-# Install the dependencies
-$ npm install
-
-# Configure Terraform variables
-$ cd terraform
-$ cp terraform.tfvars.example terraform.tfvars
-# Edit terraform.tfvars with your AWS configuration and secure passwords
-
-# Deploy to AWS Lambda
-$ cd ..
-$ ./scripts/deploy.sh
-
-# Run database migrations (after deployment)
-$ npx prisma migrate deploy --schema=src/adapters/driven/persistance/schema.prisma
-```
-
-For detailed Lambda deployment instructions, see [docs/LAMBDA_DEPLOYMENT.md](docs/LAMBDA_DEPLOYMENT.md).
-
 ## Project setup (Kubernetes)
 ```bash
 # You must have kubernetes installed
