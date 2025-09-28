@@ -5,11 +5,13 @@ variable "aws_region" {
 }
 
 variable "aws_profile" {
-  type = string
-  default = "dev-admin" # profile saved locally in aws cli
+  description = "AWS profile for resources"
+  type        = string
+  default     = "dev-admin" # or profile saved locally in aws cli
 }
 
 variable "expected_account_id" {
-  type = string
-  default = "351323458664" # account-dev
+  description = "Expected AWS account ID"
+  type        = string
+  default     = "351323458664" # account-dev
 }

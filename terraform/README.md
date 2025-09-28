@@ -12,7 +12,7 @@ This directory contains Terraform configuration for all infrastructure of the pr
 1. **Configure aws profile**
    * Configure the aws profile using the `aws configure` command.
    * Appoint the profile to account-dev.
-   * The profile must be named `dev-admin`.
+   * The profile must be named `dev-admin` (you can change it in envs/dev/backend.hcl and variables.tf)
 
 2. **Login in AWS**
    login in AWS using the `aws login` command.
@@ -27,23 +27,3 @@ This directory contains Terraform configuration for all infrastructure of the pr
    terraform plan
    terraform apply
    ```
-
-## Resources Created
-
-- **AWS Lambda Function**: Simple Node.js function with placeholder code
-- **API Gateway**: REST API with proxy integration to Lambda
-- **IAM Role**: Execution role for Lambda with basic permissions
-- **CloudWatch Log Group**: For Lambda function logs
-
-## Outputs
-
-- `api_gateway_url`: The base URL for your API Gateway
-- `lambda_function_name`: Name of the created Lambda function
-- `lambda_function_arn`: ARN of the Lambda function
-
-## Next Steps
-
-After deployment, you can:
-1. Update the Lambda function code through the AWS Console or AWS CLI
-2. Test your API using the API Gateway URL
-3. Monitor function execution through CloudWatch logs
