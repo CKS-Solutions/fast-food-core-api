@@ -1,33 +1,25 @@
 # Terraform Infrastructure for AWS Lambda
 
-This directory contains Terraform configuration for deploying a simple AWS Lambda function with API Gateway.
+This directory contains Terraform configuration for all infrastructure of the project.
 
 ## Prerequisites
 
 1. **AWS CLI** configured with appropriate credentials
 2. **Terraform** installed (version >= 1.0)
-3. **S3 bucket** for remote state (update bucket name in `main.tf`)
 
 ## Setup
 
-1. **Configure variables**:
-   ```bash
-   cp terraform.tfvars.example terraform.tfvars
-   # Edit terraform.tfvars with your configuration
-   ```
+1. **Configure aws profile**
+   * Configure the aws profile using the `aws configure` command.
+   * Appoint the profile to account-dev.
+   * The profile must be named `dev-admin`.
 
-2. **Update S3 backend configuration** in `main.tf`:
-   ```hcl
-   backend "s3" {
-     bucket = "your-terraform-state-bucket"  # Change this
-     key    = "lambda/terraform.tfstate"
-     region = "us-east-1"
-   }
-   ```
+2. **Login in AWS**
+   login in AWS using the `aws login` command.
 
 3. **Initialize Terraform**:
    ```bash
-   terraform init
+   terraform init -reconfigure -backend-config="envs/dev/backend.hcl"
    ```
 
 4. **Plan and apply**:
