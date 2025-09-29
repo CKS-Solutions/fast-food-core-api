@@ -17,3 +17,68 @@ resource "null_resource" "assert_account" {
     }
   }
 }
+
+# IAM Module
+module "iam" {
+  source = "./modules/iam"
+
+  lambda_role_name  = "fast-food-lambda-role"
+  enable_vpc_access = false
+  tags = {
+    Environment = var.environment
+    Project     = "fast-food"
+  }
+}
+
+# Lambda Module
+module "lambda" {
+  source = "./modules/lambda"
+
+  function_name   = "fast-food-api"
+  lambda_role_arn = module.iam.lambda_role_arn
+  handler         = "index.handler"
+  runtime         = "nodejs18.x"
+  timeout         = 30
+  memory_size     = 128
+  environment_variables = {
+    NODE_ENV = var.environment
+  }
+  tags = {
+    Environment = var.environment
+    Project     = "fast-food"
+  }
+}
+
+# API Gateway Module
+module "api_gateway" {
+  source = "./modules/api-gateway"
+
+  api_name             = "fast-food-api"
+  api_description      = "Fast Food API Gateway"
+  endpoint_type        = "REGIONAL"
+  authorization_type   = "NONE"
+  stage_name           = var.environment
+  lambda_function_name = module.lambda.lambda_function_name
+  lambda_invoke_arn    = module.lambda.lambda_invoke_arn
+  aws_region           = var.aws_region
+  tags = {
+    Environment = var.environment
+    Project     = "fast-food"
+  }
+}
+
+# Outputs
+output "api_gateway_url" {
+  description = "URL of the API Gateway"
+  value       = module.api_gateway.api_gateway_url
+}
+
+output "lambda_function_name" {
+  description = "Name of the Lambda function"
+  value       = module.lambda.lambda_function_name
+}
+
+output "lambda_function_arn" {
+  description = "ARN of the Lambda function"
+  value       = module.lambda.lambda_function_arn
+}
