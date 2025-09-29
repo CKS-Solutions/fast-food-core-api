@@ -27,3 +27,16 @@ This directory contains Terraform configuration for all infrastructure of the pr
    terraform plan
    terraform apply
    ```
+
+## Common errors
+
+1. **Error acquiring the state lock (status 412)**
+   * This error occurs when the state lock is already acquired by another Terraform process. Sometimes this happens even when no process is running.
+   * To solve it, you can:
+     - Run `terraform force-unlock` to release the lock.
+     - Delete .tflock file in bucket.
+
+2. **No valid credential sources found**
+   * This error occurs when the AWS profile is not configured correctly.
+   * To solve it, you can:
+      - Try to login in AWS using the `aws login` command.
