@@ -17,7 +17,7 @@ variable "expected_account_id" {
 }
 
 variable "environment" {
-  description = "Environment for resources"
+  description = "Environment name"
   type        = string
   default     = "development"
 }

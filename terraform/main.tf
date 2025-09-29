@@ -68,9 +68,14 @@ module "api_gateway" {
 }
 
 # Outputs
-output "api_gateway_url" {
-  description = "URL of the API Gateway"
-  value       = module.api_gateway.api_gateway_url
+output "api_gateway_base_url" {
+  description = "Base URL of the API Gateway"
+  value       = module.api_gateway.api_invoke_base_url
+}
+
+output "authenticate_url" {
+  description = "URL for POST /authenticate endpoint"
+  value       = module.api_gateway.authenticate_url
 }
 
 output "lambda_function_name" {
