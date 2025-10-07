@@ -15,6 +15,7 @@ env:
 
 jobs:
   build_and_push:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     name: 🐳 Build & Push Docker Image
     runs-on: ubuntu-latest
 
