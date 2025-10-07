@@ -1,23 +1,42 @@
 variable "aws_region" {
-  description = "AWS region for resources"
   type        = string
+  description = "Região da AWS onde o EKS está rodando"
   default     = "us-east-1"
 }
 
-variable "aws_profile" {
-  description = "AWS profile for resources"
+variable "eks_cluster_name" {
   type        = string
-  default     = "dev-admin" # or profile saved locally in aws cli
+  description = "Nome do cluster EKS existente"
+  default     = "fast-food-eks"
 }
 
-variable "expected_account_id" {
-  description = "Expected AWS account ID"
+# Variáveis sensíveis (usadas no secrets)
+variable "db_username" {
   type        = string
-  default     = "351323458664" # account-dev
+  description = "Usuário do banco"
+  sensitive   = true
 }
 
-variable "environment" {
-  description = "Environment name"
+variable "db_password" {
   type        = string
-  default     = "development"
+  description = "Senha do banco"
+  sensitive   = true
+}
+
+variable "mp_user" {
+  type        = string
+  description = "ID do usuário do Mercado Pago"
+  sensitive   = true
+}
+
+variable "mp_client_id" {
+  type        = string
+  description = "ID do cliente do Mercado Pago"
+  sensitive   = true
+}
+
+variable "mp_client_secret" {
+  type        = string
+  description = "Segredo do cliente do Mercado Pago"
+  sensitive   = true
 }
