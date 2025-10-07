@@ -23,6 +23,12 @@ variable "db_password" {
   sensitive   = true
 }
 
+variable "db_name" {
+  type        = string
+  description = "Nome do banco"
+  default     = "appdb"
+}
+
 variable "mp_user" {
   type        = string
   description = "ID do usuário do Mercado Pago"

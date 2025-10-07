@@ -26,7 +26,7 @@ resource "kubernetes_deployment" "fast_food_api" {
       spec {
         container {
           name  = "fast-food-api"
-          image = "caua/fast-food-api:latest"
+          image = "cauakath/fast-food-tc:latest"
 
           port {
             container_port = 3000
@@ -46,7 +46,7 @@ resource "kubernetes_deployment" "fast_food_api" {
 
           env {
             name  = "DATABASE_URL"
-            value = "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?schema=public"
+            value = local.database_url
           }
 
           resources {
