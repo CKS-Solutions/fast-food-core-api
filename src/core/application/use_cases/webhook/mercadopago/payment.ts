@@ -1,13 +1,14 @@
 import { OrderStatus } from '@entities/order';
 import { PaymentStatus } from '@entities/order-payment';
 import { HttpError } from '@error/http';
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { IMercadoPagoAuth } from '@ports/auth.mercadopago';
 
 import { IOrderPaymentRepository } from '@ports/order-payment.repository';
 import { IOrderRepository } from '@ports/order.repository';
 import { IMercadoPagoPayment } from '@ports/payment.mercadopago';
 
+@Injectable()
 export class MercadoPagoPaymentUseCase {
   constructor(
     private readonly orderRepository: IOrderRepository,

@@ -1,7 +1,7 @@
 import { OrderStatus } from '@entities/order';
 import { PaymentStatus } from '@entities/order-payment';
 import { HttpError } from '@error/http';
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { IMercadoPagoAuth } from '@ports/auth.mercadopago';
 
 import { IOrderPaymentRepository } from '@ports/order-payment.repository';
@@ -11,6 +11,7 @@ import { OrderPaymentService } from '@services/order-payment.service';
 
 const THIRTY_MINUTES = 1000 * 60 * 30;
 
+@Injectable()
 export class GeneratePaymentUseCase {
   constructor(
     private readonly orderRepository: IOrderRepository,

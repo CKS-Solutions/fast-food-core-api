@@ -1,8 +1,9 @@
 import { HttpError } from '@error/http';
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { IOrderPaymentRepository } from '@ports/order-payment.repository';
 import { IOrderRepository } from '@ports/order.repository';
 
+@Injectable()
 export class GetPaymentStatusUseCase {
   constructor(
     private readonly orderRepository: IOrderRepository,

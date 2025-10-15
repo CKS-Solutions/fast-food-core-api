@@ -1,7 +1,9 @@
 import { HttpError } from '@error/http';
 import { HttpStatus } from '@nestjs/common';
 import { ProductRepository } from '@repositories/product.repository.impl';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class RemoveProductUseCase {
   constructor(private readonly productRepository: ProductRepository) {}
 

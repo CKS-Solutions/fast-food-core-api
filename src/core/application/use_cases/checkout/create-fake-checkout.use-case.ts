@@ -1,4 +1,4 @@
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { HttpError } from '@error/http';
 
 import { ICustomerRepository } from '@ports/customer.repository';
@@ -10,6 +10,7 @@ import { ICartRepository } from '@ports/cart.repository';
 import { CartProductService } from '@services/cart-product.service';
 import { ICartProductRepository } from '@ports/cart-product.repository';
 
+@Injectable()
 export class CreateFakeCheckoutUseCase {
   constructor(
     private readonly customerRepository: ICustomerRepository,
