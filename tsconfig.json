@@ -27,6 +27,8 @@
       "@dto/*": ["./src/adapters/driver/dto/*"],
       "@repositories/*": ["src/adapters/driven/persistance/repositories/*"],
       "@shared/*": ["src/shared/*"],
+      "@value-objects/*": ["./src/core/domain/value-objects/*"],
+      "@events/*": ["./src/core/domain/events/*"]
     }
   }
 }

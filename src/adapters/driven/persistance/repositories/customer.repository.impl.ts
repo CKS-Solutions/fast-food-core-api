@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { ICustomerRepository } from '@ports/customer.repository';
 import { PrismaService } from '../prisma.service';
 import { Customer } from '@entities/customer';
@@ -19,21 +22,37 @@ export class CustomerRepository implements ICustomerRepository {
     return Customer.fromDatabase(customer);
   }
 
-  async list(customerFilter: Partial<Customer>): Promise<Customer[]> {
+  async list(customerFilter: {
+    cpf?: any;
+    name?: string;
+    email?: any;
+    phone?: any;
+  }): Promise<Customer[]> {
+    const whereClause: any = {};
+
+    if (customerFilter.cpf) {
+      whereClause.cpf = customerFilter.cpf.toString();
+    }
+    if (customerFilter.name) {
+      whereClause.name = customerFilter.name;
+    }
+    if (customerFilter.email) {
+      whereClause.email = customerFilter.email.toString();
+    }
+    if (customerFilter.phone) {
+      whereClause.phone = customerFilter.phone.toString();
+    }
+
     const customers = await this.prisma.customer.findMany({
-      where: customerFilter,
+      where: whereClause,
     });
     return customers.map((customer) => Customer.fromDatabase(customer));
   }
 
   async create(customer: Customer): Promise<Customer> {
+    const customerData = customer.toDatabase();
     const customerSaved = await this.prisma.customer.create({
-      data: {
-        cpf: customer.cpf,
-        name: customer.name,
-        email: customer.email,
-        phone: customer.phone,
-      },
+      data: customerData,
     });
 
     return Customer.fromDatabase(customerSaved);
@@ -43,16 +62,19 @@ export class CustomerRepository implements ICustomerRepository {
     cpf: string,
     customer: Omit<Customer, 'cpf'>,
   ): Promise<Customer> {
-    return await this.prisma.customer.update({
+    const customerData = customer.toDatabase();
+    const updatedCustomer = await this.prisma.customer.update({
       where: {
         cpf: cpf,
       },
       data: {
-        name: customer.name,
-        email: customer.email,
-        phone: customer.phone,
+        name: customerData.name,
+        email: customerData.email,
+        phone: customerData.phone,
       },
     });
+
+    return Customer.fromDatabase(updatedCustomer);
   }
 
   async delete(cpf: string): Promise<void> {

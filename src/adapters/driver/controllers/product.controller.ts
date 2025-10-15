@@ -13,8 +13,6 @@ import { Response } from 'express';
 
 import { HttpError } from '@error/http';
 import { ProductDto } from '@dto/product.dto';
-import { ProductRepository } from '@repositories/product.repository.impl';
-import { ProductService } from '@services/product.service';
 import { ProductCategory } from '@entities/product/product.types';
 
 import {
@@ -28,40 +26,13 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('products')
 export class ProductController {
-  private readonly createProductUseCase: CreateProductUseCase;
-  private readonly listProductsUseCase: ListProductsUseCase;
-  private readonly listProductsByCategoryUseCase: ListProductsByCategoryUseCase;
-  private readonly updateProductUseCase: UpdateProductUseCase;
-  private readonly removeProductUseCase: RemoveProductUseCase;
-
   constructor(
-    private readonly productRepository: ProductRepository,
-    private readonly productService: ProductService,
-  ) {
-    this.createProductUseCase = new CreateProductUseCase(
-      this.productRepository,
-      this.productService,
-    );
-
-    this.listProductsUseCase = new ListProductsUseCase(
-      this.productRepository,
-      this.productService,
-    );
-
-    this.listProductsByCategoryUseCase = new ListProductsByCategoryUseCase(
-      this.productRepository,
-      this.productService,
-    );
-
-    this.updateProductUseCase = new UpdateProductUseCase(
-      this.productRepository,
-      this.productService,
-    );
-
-    this.removeProductUseCase = new RemoveProductUseCase(
-      this.productRepository,
-    );
-  }
+    private readonly createProductUseCase: CreateProductUseCase,
+    private readonly listProductsUseCase: ListProductsUseCase,
+    private readonly listProductsByCategoryUseCase: ListProductsByCategoryUseCase,
+    private readonly updateProductUseCase: UpdateProductUseCase,
+    private readonly removeProductUseCase: RemoveProductUseCase,
+  ) {}
 
   @Post()
   @ApiOperation({
@@ -88,7 +59,16 @@ export class ProductController {
     isArray: true,
   })
   async list(): Promise<ProductDto[]> {
-    return await this.listProductsUseCase.execute();
+    const products = await this.listProductsUseCase.execute();
+    return products.map(
+      (product) =>
+        new ProductDto(
+          product.category,
+          product.description,
+          product.price,
+          product.quantity,
+        ),
+    );
   }
 
   @Get('category/:category')
@@ -123,7 +103,17 @@ export class ProductController {
       category as ProductCategory,
     );
 
-    res.status(HttpStatus.OK).json(products).send();
+    const productDtos = products.map(
+      (product) =>
+        new ProductDto(
+          product.category,
+          product.description,
+          product.price,
+          product.quantity,
+        ),
+    );
+
+    res.status(HttpStatus.OK).json(productDtos).send();
   }
 
   @Put(':id')

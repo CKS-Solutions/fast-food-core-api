@@ -1,29 +1,13 @@
 import { Controller, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { OrderPaymentRepository } from '@repositories/order-payment.repository.impl';
-import { OrderRepository } from '@repositories/order.repository.impl';
 import { MercadoPagoPaymentUseCase } from '@usecases/webhook/mercadopago/payment';
 import { Request, Response } from 'express';
-import { MercadoPagoAuthMock } from 'src/adapters/driven/mercadopago/auth/auth.mock';
-import { MercadoPagoPaymentMock } from 'src/adapters/driven/mercadopago/payment/payment.mock';
 
 @Controller('webhook')
 export class WebhookController {
-  private readonly mercadoPagoPaymentUseCase: MercadoPagoPaymentUseCase;
-
   constructor(
-    private readonly orderRepository: OrderRepository,
-    private readonly orderPaymentRepository: OrderPaymentRepository,
-    private readonly mpAuthService: MercadoPagoAuthMock,
-    private readonly mpPaymentService: MercadoPagoPaymentMock,
-  ) {
-    this.mercadoPagoPaymentUseCase = new MercadoPagoPaymentUseCase(
-      this.orderRepository,
-      this.orderPaymentRepository,
-      this.mpAuthService,
-      this.mpPaymentService,
-    );
-  }
+    private readonly mercadoPagoPaymentUseCase: MercadoPagoPaymentUseCase,
+  ) {}
 
   @Post('mercadopago')
   @ApiOperation({

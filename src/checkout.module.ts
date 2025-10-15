@@ -13,6 +13,8 @@ import { OrderService } from '@services/order.service';
 import { CartService } from '@services/cart.service';
 
 import { CheckoutController } from '@controllers/checkout.controller';
+import { CreateFakeCheckoutUseCase } from '@usecases/checkout/create-fake-checkout.use-case';
+import { CreateCheckoutUseCase } from '@usecases/checkout/create-checkout.use-case';
 
 @Module({
   controllers: [CheckoutController],
@@ -27,6 +29,8 @@ import { CheckoutController } from '@controllers/checkout.controller';
     CartRepository,
     CartProductService,
     CartProductRepository,
+    CreateFakeCheckoutUseCase,
+    CreateCheckoutUseCase,
   ],
 })
 export class CheckoutModule {}

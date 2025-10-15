@@ -24,7 +24,12 @@ export class CreateCustomerUseCase {
       );
     }
 
-    const customerModel = this.customerService.create(customer);
+    const customerModel = this.customerService.create(
+      customer.cpf,
+      customer.name,
+      customer.email ?? '',
+      customer.phone ?? '',
+    );
     return await this.customerRepository.create(customerModel);
   }
 }

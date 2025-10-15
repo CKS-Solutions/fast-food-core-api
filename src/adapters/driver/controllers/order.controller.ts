@@ -18,48 +18,17 @@ import { ListOrderUseCase } from '@usecases/order/list-order.use-case';
 import { Order } from '@entities/order';
 import { HttpError } from '@error/http';
 
-import { OrderService } from '@services/order.service';
-import { OrderRepository } from '@repositories/order.repository.impl';
-import { OrderPaymentRepository } from '@repositories/order-payment.repository.impl';
-import { OrderPaymentService } from '@services/order-payment.service';
 import { GetPaymentStatusUseCase } from '@usecases/order/get-payment-status.use-case';
-import { MercadoPagoQRCode } from 'src/adapters/driven/mercadopago/qrcode/qrcode';
-import { MercadoPagoAuth } from 'src/adapters/driven/mercadopago/auth/auth';
 import { UpdateOrderStatusUseCase } from '@usecases/order/update-order-status.use-case';
 
 @Controller('orders')
 export class OrderController {
-  private readonly listOrderUseCase: ListOrderUseCase;
-  private readonly generatePaymentUseCase: GeneratePaymentUseCase;
-  private readonly getPaymentStatusUseCase: GetPaymentStatusUseCase;
-
   constructor(
-    private readonly orderService: OrderService,
-    private readonly orderRepository: OrderRepository,
-    private readonly orderPaymentRepository: OrderPaymentRepository,
-    private readonly orderPaymentService: OrderPaymentService,
-    private readonly mpAuthService: MercadoPagoAuth,
-    private readonly mpQRCodeService: MercadoPagoQRCode,
+    private readonly listOrderUseCase: ListOrderUseCase,
+    private readonly generatePaymentUseCase: GeneratePaymentUseCase,
+    private readonly getPaymentStatusUseCase: GetPaymentStatusUseCase,
     private readonly updateOrderStatusUseCase: UpdateOrderStatusUseCase,
-  ) {
-    this.listOrderUseCase = new ListOrderUseCase(
-      this.orderRepository,
-      this.orderService,
-    );
-
-    this.generatePaymentUseCase = new GeneratePaymentUseCase(
-      this.orderRepository,
-      this.orderPaymentRepository,
-      this.orderPaymentService,
-      this.mpAuthService,
-      this.mpQRCodeService,
-    );
-
-    this.getPaymentStatusUseCase = new GetPaymentStatusUseCase(
-      this.orderRepository,
-      this.orderPaymentRepository,
-    );
-  }
+  ) {}
 
   @Get()
   @ApiOperation({

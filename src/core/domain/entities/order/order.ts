@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   DatabaseOrder,
   DatabaseOrderWithProducts,
   OrderStatus,
 } from './order.types';
+import { DomainEvents } from '@events/domain-events';
+import { OrderStatusChanged } from '@events/order-status-changed';
 
 export class Order {
   public readonly createdAt: Date;
@@ -22,7 +26,11 @@ export class Order {
   }
 
   changeStatus(status: OrderStatus) {
+    const previousStatus = this.status;
     this.status = status;
+
+    // Emit domain event
+    DomainEvents.raise(new OrderStatusChanged(this.id, status, previousStatus));
   }
 
   toDatabase(): DatabaseOrder {

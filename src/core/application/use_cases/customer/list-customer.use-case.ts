@@ -12,7 +12,12 @@ export class ListCustomerUseCase {
   ) {}
 
   async execute(filters: CustomerListDto): Promise<Customer[]> {
-    const filtersModel = this.customerService.convertFiltersToModel(filters);
+    const filtersModel = this.customerService.convertFiltersToModel({
+      cpf: filters.cpf,
+      name: filters.name,
+      email: filters.email,
+      phone: filters.phone,
+    });
     return await this.customerRepository.list(filtersModel);
   }
 }

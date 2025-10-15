@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid';
-import { OrderListDto } from '@dto/order-list.dto';
 import { Cart } from '@entities/cart';
 import { Order } from '@entities/order/order';
 import { OrderStatus } from '@entities/order/order.types';
@@ -10,7 +9,10 @@ import { Prisma } from '@prisma/client';
 export class OrderService {
   constructor() {}
 
-  convertFiltersToModel(filters: OrderListDto): Partial<Order> {
+  convertFiltersToModel(filters: {
+    customerId?: string;
+    status?: OrderStatus;
+  }): Partial<Order> {
     const orderFiltersModel: Partial<Order> = {};
 
     if (filters.customerId) orderFiltersModel.customerId = filters.customerId;

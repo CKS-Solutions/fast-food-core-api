@@ -8,6 +8,8 @@ import { MercadoPagoAuth } from './adapters/driven/mercadopago/auth/auth';
 import { MercadoPagoQRCode } from './adapters/driven/mercadopago/qrcode/qrcode';
 import { ListOrderUseCase } from '@usecases/order/list-order.use-case';
 import { UpdateOrderStatusUseCase } from '@usecases/order/update-order-status.use-case';
+import { GeneratePaymentUseCase } from '@usecases/order/generate-payment.use-case';
+import { GetPaymentStatusUseCase } from '@usecases/order/get-payment-status.use-case';
 
 @Module({
   controllers: [OrderController],
@@ -20,6 +22,8 @@ import { UpdateOrderStatusUseCase } from '@usecases/order/update-order-status.us
     MercadoPagoQRCode,
     ListOrderUseCase,
     UpdateOrderStatusUseCase,
+    GeneratePaymentUseCase,
+    GetPaymentStatusUseCase,
   ],
 })
 export class OrderModule {}

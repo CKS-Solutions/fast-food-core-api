@@ -1,15 +1,10 @@
-import { ProductDto } from '@dto/product.dto';
 import { ProductRepository } from '@repositories/product.repository.impl';
-import { ProductService } from '@services/product.service';
+import { Product } from '@entities/product/product';
 
 export class ListProductsUseCase {
-  constructor(
-    private readonly productRepository: ProductRepository,
-    private readonly productService: ProductService,
-  ) {}
+  constructor(private readonly productRepository: ProductRepository) {}
 
-  async execute(): Promise<ProductDto[]> {
-    const products = await this.productRepository.list();
-    return this.productService.toDtoList(products);
+  async execute(): Promise<Product[]> {
+    return await this.productRepository.list();
   }
 }
