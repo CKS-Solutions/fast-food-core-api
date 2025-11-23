@@ -7,6 +7,6 @@ export class CartProductService {
   constructor() {}
 
   create(cartId: string, productId: string, quantity: number): CartProduct {
-    return new CartProduct(uuid(), cartId, productId, quantity);
+    return new CartProduct(uuid(), cartId, productId);
   }
 }
