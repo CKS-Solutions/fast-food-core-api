@@ -8,7 +8,6 @@ describe('sortOrdersByQueuePriority', () => {
     const orders: Order[] = [
       new Order(
         '1',
-        'credit_card',
         OrderStatus.IN_PREPARATION,
         0,
         null,
@@ -17,7 +16,6 @@ describe('sortOrdersByQueuePriority', () => {
       ),
       new Order(
         '2',
-        'credit_card',
         OrderStatus.READY,
         0,
         null,
