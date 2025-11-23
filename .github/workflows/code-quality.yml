@@ -14,7 +14,7 @@ on:
 
 jobs:
   sonarqube:
-    name: Build and analyze
+    name: Code Quality
     runs-on: ubuntu-latest
     concurrency: 
       group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,6 +27,9 @@ jobs:
 
       - name: Install libs
         run: npm install
+
+      - name: Check Build
+        run: npm run build
 
       - name: Test and coverage
         run: cp .env.example .env && npm run test:cov
