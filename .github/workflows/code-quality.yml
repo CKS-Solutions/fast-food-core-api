@@ -1,4 +1,4 @@
-name: SonarQube
+name: Code Quality
 
 on:
   workflow_dispatch:
