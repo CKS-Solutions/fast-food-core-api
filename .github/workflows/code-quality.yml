@@ -13,9 +13,28 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  sonarqube:
-    name: Build and analyze
+  build: 
+    name: Check Build
     runs-on: ubuntu-latest
+    concurrency: 
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install libs
+        run: npm install
+
+      - name: Check Build
+        run: npm run build
+
+  sonarqube:
+    name: Run SonarQube
+    runs-on: ubuntu-latest
+    needs: [build]
     concurrency: 
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
